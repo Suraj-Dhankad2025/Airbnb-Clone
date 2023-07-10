@@ -8,8 +8,10 @@ import ListingHead from "../../components/listings/ListingHead";
 import ListingInfo from "../../components/listings/ListingInfo";
 import { useRouter } from "next/navigation";
 import useLoginModel from "@/app/hooks/useLoginModel";
+import ListingReservation from "../../components/listings/ListingReservation";
 import { differenceInCalendarDays, eachDayOfInterval } from "date-fns";
 import axios from "axios";
+import { Range } from "react-date-range";
 import { toast } from "react-hot-toast";
 const initialDateRange = {
     startDate: new Date(),
@@ -45,7 +47,7 @@ const ListingClient:React.FC<ListingClientProps> = ({
 
     const [isLoading,setIsLoading] = useState(false);
     const [totalPrice, setTotalPrice] = useState(listing.price);
-    const [dateRange, setDateRange] = useState(initialDateRange);
+    const [dateRange, setDateRange] = useState<Range>(initialDateRange);
 
     const onCreateReservation = useCallback(()=>{
         if(!currentUser){
@@ -127,9 +129,18 @@ const ListingClient:React.FC<ListingClientProps> = ({
                     order-first
                     mb-10
                     md:order-last
-                    md-col-span-3
+                    md:col-span-3
                     ">
-                        
+                        <ListingReservation
+                            price = {listing.price}
+                            totalPrice={totalPrice}
+                            onChangeDate = {(value)=>{setDateRange(value)}}
+                            dateRange={dateRange}
+                            onSubmit = {onCreateReservation}
+                            disabled= {isLoading}
+                            disabledDates={disabledDates}
+
+                        />
                     </div>
                 </div>
             </div>
