@@ -9,7 +9,7 @@ const MenuItem:React.FC<MenuItemProps> = ({
 }) => {
     return ( 
         <div 
-        onClick={onClick }
+        onClick={onClick}
         className="
         px-4
         py-3

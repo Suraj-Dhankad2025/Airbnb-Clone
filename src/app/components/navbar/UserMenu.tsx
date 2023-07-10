@@ -5,24 +5,33 @@ import { AiOutlineMenu } from 'react-icons/ai'
 import MenuItem from './MenuItem';
 import userRegisterModel from '@/app/hooks/useRegisterModel';
 import useLoginModel from '@/app/hooks/useLoginModel';
-import { User } from '@prisma/client';
+import useRentModel from '@/app/hooks/useRentModel';
 import { signOut } from 'next-auth/react';
+import { SafeUser } from '@/app/types';
 interface UserMenuProps {
-    currentUser?: User | null;
+    currentUser?: SafeUser | null;
 }
 const UserMenu: React.FC<UserMenuProps> = ({
     currentUser
 }) => {
     const registerModel = userRegisterModel();
     const loginModel = useLoginModel();
+    const rentModel = useRentModel();
     const [isOpen, setisOpen] = useState(false);
     const toggleOpen = useCallback(() => {
         setisOpen((value) => !value);
     }, []);
+    const onRent = useCallback(() => {
+        if (!currentUser) {
+            return loginModel.onOpen();
+        }
+         rentModel.onOpen();
+    },[currentUser, loginModel, rentModel]);
+
     return (
         <div className="relative">
             <div className="flex flex-row items-center gap-3">
-                <div onClick={() => { }}
+                <div onClick={onRent}
                     className="
             hidden
             md:block
@@ -62,7 +71,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
                md:block
 
                '>
-                        <Avatar />
+                        <Avatar src={currentUser?.image}/>
                     </div>
                 </div>
             </div>
@@ -99,7 +108,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
                                     label='My Properties'
                                 />
                                 <MenuItem
-                                    onClick={()=>{}}
+                                    onClick={rentModel.onOpen}
                                     label='Airbnb my home'
                                 />
                                 <hr />

@@ -47,7 +47,7 @@ model Account {
 model Listing {
   id            String        @id @default(auto()) @map("_id") @db.ObjectId
   title         String
-  descripting   String
+  description   String
   imageSrc      String
   createdAt     DateTime      @default(now())
   category      String
