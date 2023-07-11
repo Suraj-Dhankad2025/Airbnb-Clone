@@ -18,7 +18,7 @@ const useFavourate = ({
     const router = useRouter();
     const loginModel = useLoginModel();
     const hasFavourated = useMemo(() => {
-        const list = currentUser?.favourateIds || [];
+        const list = currentUser?.favoriteIds || [];
         return list.includes(listingId);
     }, [currentUser, listingId]);
 
