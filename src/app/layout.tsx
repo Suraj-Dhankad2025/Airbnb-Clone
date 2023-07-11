@@ -8,6 +8,7 @@ import RegisterModel from './components/modals/RegisterModel'
 import LoginModel from './components/modals/LoginModel'
 import RentModel from './components/modals/RentModel'
 import getCurrentUser from './actions/getCurrentUser'
+import SearchModel from './components/modals/SearchModel'
 const inter = Inter({ subsets: ['latin'] })
 export const metadata = {
   title: 'Airbnb',
@@ -26,6 +27,7 @@ export default async function RootLayout({
       <body className={inter.className}>
         <ClientOnly>
         <ToasterProvider/>
+        <SearchModel/>
         <RentModel/>
         <LoginModel/>
         <RegisterModel/>
