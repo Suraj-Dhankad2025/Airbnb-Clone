@@ -1,8 +1,46 @@
 'use client'
 import useSearchModel from '@/app/hooks/useSearchModel'
 import {BiSearch} from 'react-icons/bi'
+import { useSearchParams } from 'next/navigation'
+import useCountry from '@/app/hooks/useCountry'
+import { useMemo } from 'react'
+import { differenceInDays } from 'date-fns'
 const Search = () => {
     const searchModel = useSearchModel();
+    const params = useSearchParams();
+    const {getByValue} = useCountry();
+    const locationValue = params?.get('locationValue');
+    const startDate = params?.get('startDate');
+    const endDate = params?.get('endDate');
+    const guestCount = params?.get('guestCount');
+    const locationLabel = useMemo(() => {
+        if(locationValue){
+            return getByValue(locationValue as string)?.label;
+        }
+        return 'Anywhere';
+    },[getByValue,locationValue]);
+
+    const durationLabel = useMemo(() => {
+        if(startDate && endDate){
+            const start = new Date(startDate as string);
+            const end = new Date(endDate as string);
+            let diff = differenceInDays(start, end);
+            if(diff === 0){
+                diff = 1;
+            }
+            return `${diff} Days`;
+        }
+        return 'Any Week';
+    },[startDate,endDate]);
+
+    const guestLabel = useMemo(() => {
+        if(guestCount){
+            return `${guestCount} Guests`;
+        }
+        return 'Add Guests';
+    }, [guestCount]);
+
+
     return (
         <div 
         onClick={searchModel.onOpen}
@@ -28,7 +66,7 @@ const Search = () => {
                  font-semibold
                  px-6
                 ">
-                    Anywhere
+                    {locationLabel}
                 </div>
                 <div className="
                 hidden
@@ -40,7 +78,7 @@ const Search = () => {
                 flex-1
                 text-center
                 ">
-                    Any Week
+                    {durationLabel}
                 </div>
                 <div className="
                 text-sm
@@ -54,7 +92,7 @@ const Search = () => {
 
                 ">
                     <div className="hidden sm:block ">
-                    Add Guests
+                    {guestLabel}
                     </div>
                     <div className="
                     p-2
