@@ -15,14 +15,14 @@ export async function POST(request: Request, { params }: { params: IParams }) {
   if (!listingId || typeof listingId !== "string") {
     throw new Error("Invalid ID");
   }
-  let favourateIds = [...(currentUser.favourateIds || [])];
-  favourateIds.push(listingId);
+  let favoriteIds = [...(currentUser.favoriteIds || [])];
+  favoriteIds.push(listingId);
   const user = await prisma.user.update({
     where: {
       id: currentUser.id,
     },
     data: {
-      favourateIds,
+      favoriteIds,
     },
   });
   return NextResponse.json(user);
@@ -39,14 +39,14 @@ export async function DELETE(
   if (!listingId || typeof listingId !== "string") {
     throw new Error("Invalid ID");
   }
-  let favourateIds = [...(currentUser.favourateIds || [])];
-  favourateIds = favourateIds.filter((id) => id !== listingId);
+  let favoriteIds = [...(currentUser.favoriteIds || [])];
+  favoriteIds = favoriteIds.filter((id) => id !== listingId);
   const user = await prisma.user.update({
     where: {
         id: currentUser.id,
     },
     data: {
-        favourateIds,
+      favoriteIds,
     },
     }); 
     return NextResponse.json(user);
