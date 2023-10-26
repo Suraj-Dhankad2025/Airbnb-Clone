@@ -9,6 +9,11 @@ npm run dev
 # or
 yarn dev
 # or
+# "dev": "next dev",
+#     "postinstall": "prisma generate",
+#     "build": "prisma generate && next build",
+#     "start": "next start",
+#     "lint": "next lint"
 pnpm dev
 ```
 
